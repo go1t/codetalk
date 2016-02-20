@@ -60,6 +60,17 @@ app.post('/review', function(req,res) {
   });
 })
 
+app.post('/showline', function(req,res) {
+  var line_number = parseInt(req.body.text)
+  res.json({
+    text: "Showing line " + line_number,
+    attachments: [{
+      "title": "Preview",
+      "text": "```" + lines.slice(line_number-2, line_number+3).join('\n') + "```"
+    }]
+  })
+})
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
