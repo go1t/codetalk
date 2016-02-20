@@ -65,13 +65,13 @@ app.post('/showline', function(req,res) {
   var line_number = parseInt(req.body.text)
   var start = Math.max(line_number-3, 0)
   var subarray = lines.slice(start, line_number+3)
-  var fullfileLink = "<" + fileURL + "|_View full file_>"
+  var fullfileLink = "<" + fileURL + "|_View file_>"
   for(var i=0; i<subarray.length; i++) {
     subarray[i] = (start+1+i) + ": " + subarray[i]
   }
   res.json({
     response_type: "in_channel",
-    text: "Showing line " + (start+1) + " to " + (line_number+3) + " (" + fullfileLink + ")\n" +
+    text: "Showing line " + (start+1) + " to " + (line_number+3) + " _(_" + fullfileLink + "_)_\n" +
       "```" + subarray.join('\n') + "```"
   })
 })
