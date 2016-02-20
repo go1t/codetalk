@@ -62,12 +62,11 @@ app.post('/review', function(req,res) {
 
 app.post('/showline', function(req,res) {
   var line_number = parseInt(req.body.text)
+  var subarray = lines.slice(line_number-2, line_number+3)
+  subarray[1] = "*" + subarray[1] + "*"
   res.json({
-    text: "Showing line " + line_number,
-    attachments: [{
-      "title": "Preview",
-      "text": "```" + lines.slice(line_number-2, line_number+3).join('\n') + "```"
-    }]
+    text: "Showing line " + line_number + "\n" +
+      "```" + subarray.join('\n') + "```"
   })
 })
 
