@@ -61,19 +61,40 @@ app.post('/review', function(req,res) {
   });
 })
 
-app.post('/showline', function(req,res) {
-  var line_number = parseInt(req.body.text)
+var createSnippet = function(url, line_number, lines) {
   var start = Math.max(line_number-3, 0)
   var subarray = lines.slice(start, line_number+3)
-  var fullfileLink = "<" + fileURL + "#L" + line_number + "|_View file_>"
+  var fullfileLink = "<" + url + "#L" + line_number + "|_View file_>"
   for(var i=0; i<subarray.length; i++) {
     subarray[i] = (start+1+i) + ": " + subarray[i]
   }
+  return "Showing line " + (start+1) + " to " + (line_number+3) + " _(_" + fullfileLink + "_)_\n" +
+    "```" + subarray.join('\n') + "```"
+}
+
+app.post('/showline', function(req,res) {
   res.json({
     response_type: "in_channel",
-    text: "Showing line " + (start+1) + " to " + (line_number+3) + " _(_" + fullfileLink + "_)_\n" +
-      "```" + subarray.join('\n') + "```"
+    text: createSnippet(fileURL, parseInt(req.body.text), lines)
   })
+})
+
+app.post('/refer', function(req,res){
+  var raw = req.body.text.split(" ")
+  if(raw.length != 2) {
+    res.json({
+      response_type: "in_channel",
+      text: "To refer a specific snippet of code, please use the command '/refer <fileurl> <linenumber>'"
+    })
+  } else {
+    var url = raw[0], line = parseInt(raw[1])
+    getCodeFromURL(url, function(data) {
+      res.json({
+        response_type: "in_channel",
+        text: createSnippet(url, line, data)
+      })
+    })
+  }
 })
 
 app.listen(app.get('port'), function() {
