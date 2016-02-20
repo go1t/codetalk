@@ -48,6 +48,7 @@ app.post('/review', function(req,res) {
   getCodeFromURL(fileURL, function(data) {
     lines = data
     res.json({
+      response_type: "in_channel",
       text: "Your codetalk session is now active!",
       attachments: [
         {
@@ -62,10 +63,14 @@ app.post('/review', function(req,res) {
 
 app.post('/showline', function(req,res) {
   var line_number = parseInt(req.body.text)
-  var subarray = lines.slice(line_number-2, line_number+3)
-  subarray[1] = "*" + subarray[1] + "*"
+  var start = Math.max(line_number-3, 0)
+  var subarray = lines.slice(start, line_number+3)
+  for(var i=0; i<subarray.length; i++) {
+    subarray[i] = (start+1+i) + ": " + subarray[i]
+  }
   res.json({
-    text: "Showing line " + line_number + "\n" +
+    response_type: "in_channel",
+    text: "Showing line " + (start+1) + " to " + (line_number+3) + "\n" +
       "```" + subarray.join('\n') + "```"
   })
 })
