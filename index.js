@@ -52,7 +52,7 @@ app.post('/review', function(req,res) {
       text: "Your codetalk session is now active!",
       attachments: [
         {
-            "title": data.length + " lines of code",
+            "title": lines.length + " lines of code", 
             "title_link": fileURL,
             "text": "Tag people and refer to any line by command /atline",
         }
