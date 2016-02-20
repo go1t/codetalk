@@ -1,5 +1,4 @@
 var express = require('express');
-var $ = require('jquery');
 var app = express();
 
 var bodyParser = require('body-parser')
@@ -52,7 +51,7 @@ app.post('/review', function(req,res) {
       text: "Your codetalk session is now active!",
       attachments: [
         {
-            "title": lines.length + " lines of code", 
+            "title": lines.length + " lines of code",
             "title_link": fileURL,
             "text": "Tag people and refer to any line by command /atline",
         }
