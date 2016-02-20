@@ -72,7 +72,7 @@ var createSnippet = function(url, line_number, lines, stop) {
   var subarray = lines.slice(start, end)
   var fullfileLink = "<" + url + "#L" + line_number + "|_View file_>"
   if( stop != undefined ) {
-    fullfileLink = "<" + url + "#L" + start + "-L" + stop + "|_View file_>"
+    fullfileLink = "<" + url + "#L" + (start+1) + "-L" + stop + "|_View file_>"
   }
   for(var i=0; i<subarray.length; i++) {
     subarray[i] = (start+1+i) + ": " + subarray[i]
@@ -114,12 +114,20 @@ app.post('/refer', function(req,res){
   }
 })
 
-/*app.post('search', function(req,res){
+app.post('search', function(req,res){
   var keyword = req.body.text, matches = []
   for(var i=0;i<lines.length; i++) {
-    if(lines[i].indexOf(keyword) >
+    if(lines[i].indexOf(keyword) > -1) {
+      matches.append({
+        text: "line " + (i+1) + ": " + lines[i]
+      });
+    }
   }
-})*/
+  res.json({
+    text: "Found " + matches.length + " matches of keyword " + "\"" + keyword + "\" in the current file",
+    attachments: matches
+   })
+})
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
