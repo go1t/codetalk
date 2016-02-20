@@ -114,11 +114,11 @@ app.post('/refer', function(req,res){
   }
 })
 
-app.post('search', function(req,res){
+app.post('/search', function(req,res){
   var keyword = req.body.text, matches = []
   for(var i=0;i<lines.length; i++) {
     if(lines[i].indexOf(keyword) > -1) {
-      matches.append({
+      matches.push({
         text: "line " + (i+1) + ": " + lines[i]
       });
     }
@@ -126,7 +126,7 @@ app.post('search', function(req,res){
   res.json({
     text: "Found " + matches.length + " matches of keyword " + "\"" + keyword + "\" in the current file",
     attachments: matches
-   })
+  })
 })
 
 app.listen(app.get('port'), function() {
