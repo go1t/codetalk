@@ -54,29 +54,43 @@ app.post('/review', function(req,res) {
         {
             "title": lines.length + " lines of code",
             "title_link": fileURL,
-            "text": "Tag people and refer to any line by command /atline",
+            "text": "Tag people and refer to any line by command /showline",
         }
       ]
     });
   });
 })
 
-var createSnippet = function(url, line_number, lines) {
+var createSnippet = function(url, line_number, lines, stop) {
   var start = Math.max(line_number-3, 0)
-  var subarray = lines.slice(start, line_number+3)
+  var end = Math.min(line_number+3, lines.length)
+  if( stop != undefined ) {
+    start = line_number-1
+    console.log(stop)
+    end = stop
+  }
+  var subarray = lines.slice(start, end)
   var fullfileLink = "<" + url + "#L" + line_number + "|_View file_>"
   for(var i=0; i<subarray.length; i++) {
     subarray[i] = (start+1+i) + ": " + subarray[i]
   }
-  return "Showing line " + (start+1) + " to " + (line_number+3) + " _(_" + fullfileLink + "_)_\n" +
+  return "Showing line " + (start+1) + " to " + (end) + " _(_" + fullfileLink + "_)_\n" +
     "```" + subarray.join('\n') + "```"
 }
 
 app.post('/showline', function(req,res) {
-  res.json({
-    response_type: "in_channel",
-    text: createSnippet(fileURL, parseInt(req.body.text), lines)
-  })
+  var text = req.body.text.split('-')
+  if( text.length == 1 ) {
+    res.json({
+      response_type: "in_channel",
+      text: createSnippet(fileURL, parseInt(req.body.text), lines)
+    })
+  } else {
+    res.json({
+      response_type: "in_channel",
+      text: createSnippet(fileURL, parseInt(text[0]), lines, parseInt(text[1]))
+    })
+  }
 })
 
 app.post('/refer', function(req,res){
@@ -84,7 +98,7 @@ app.post('/refer', function(req,res){
   if(raw.length != 2) {
     res.json({
       response_type: "in_channel",
-      text: "To refer a specific snippet of code, please use the command '/refer <fileurl> <linenumber>'"
+      text: "To refer a specific snippet of code, please use the command _'/refer <fileurl> <linenumber>'_"
     })
   } else {
     var url = raw[0], line = parseInt(raw[1])
