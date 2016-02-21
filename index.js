@@ -100,7 +100,7 @@ app.post('/showline', function(req,res) {
   if( text.length == 1 ) {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines)
+      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines) + " " + req.body.team_id + " " + fileURL
     })
   } else {
     res.json({
