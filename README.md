@@ -22,8 +22,8 @@ A slack integration for simple code discussion
 2. Remember that url 		
 3. Go to your slack team's slash commands configuration		
 4. Add 4 commands, each pointing to these url respectively:		
-* codetalk, [your-deployed-heroku-url]/review		
-* showline, [your-deployed-heroku-url]/showline		
-* refer, [your-deployed-heroku-url]/refer		
-* find, [your-deployed-heroku-url]/search
+ * codetalk, [your-deployed-heroku-url]/review		
+ * showline, [your-deployed-heroku-url]/showline		
+ * refer, [your-deployed-heroku-url]/refer		
+ * find, [your-deployed-heroku-url]/search
 5. Configure other options as you see fit, and you are done!
