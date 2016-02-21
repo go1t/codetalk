@@ -50,18 +50,18 @@ app.get('/grab', function(req, res) {
 });
 
 var fileURL = {};
-var lines;
+var lines = {};
 
 app.post('/review', function(req,res) {
   getCodeFromURL(req.body.text, function(data) {
-    lines = data
+    lines[req.body.team_id] = data
     fileURL[req.body.team_id] = req.body.text
     res.json({
       response_type: "in_channel",
       text: "Your codetalk session is now active!",
       attachments: [
         {
-            "title": lines.length + " lines of code " + req.body.team_id,
+            "title": lines[req.body.team_id].length + " lines of code " + req.body.team_id,
             "title_link": fileURL[req.body.team_id],
             "text": "Tag people and refer to any line by command /showline",
         }
@@ -100,12 +100,12 @@ app.post('/showline', function(req,res) {
   if( text.length == 1 ) {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines) + " " + req.body.team_id + " " + fileURL
+      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines[req.body.team_id] ) + " " + req.body.team_id + " " + fileURL
     })
   } else {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL[req.body.team_id], parseInt(text[0]), lines, parseInt(text[1]))
+      text: createSnippet(fileURL[req.body.team_id], parseInt(text[0]), lines[req.body.team_id] , parseInt(text[1]))
     })
   }
 })
@@ -135,10 +135,10 @@ app.post('/refer', function(req,res){
 
 app.post('/search', function(req,res){
   var keyword = req.body.text, matches = []
-  for(var i=0;i<lines.length; i++) {
-    if(lines[i].indexOf(keyword) > -1) {
+  for(var i=0;i<lines[req.body.team_id] .length; i++) {
+    if(lines[req.body.team_id][i].indexOf(keyword) > -1) {
       matches.push({
-        text: "line " + (i+1) + ": " + lines[i]
+        text: "line " + (i+1) + ": " + lines[req.body.team_id][i]
       });
     }
   }
