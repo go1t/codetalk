@@ -11,16 +11,6 @@ var transformURL = function(url) {
   return url.replace('/blob/', '/').replace('github.com','raw.githubusercontent.com')
 }
 
-var getParameterByName = function(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 var getCodeFromURL = function(url, callback) {
   var request = require('request');
   request.get(transformURL(url), function (error, response, body) {
@@ -40,9 +30,8 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, res) {
-  //response.render('pages/index');
-  var code = getParameterByName('code')
+app.get('/', function(req, res) {
+  var code = req.query.code
   var request = require('request');
   request.get("https://slack.com/api/oauth.access?client_id=22296872241.22374686359&client_secret=1e66456c43b443964919324b6b71f7c4&code=" + code, function (error, response, body) {
       if (!error && response.statusCode == 200) {
