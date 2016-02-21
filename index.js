@@ -61,7 +61,7 @@ app.post('/review', function(req,res) {
       text: "Your codetalk session is now active!",
       attachments: [
         {
-            "title": lines.length + " lines of code",
+            "title": lines.length + " lines of code " + req.body.team_id,
             "title_link": fileURL[req.body.team_id],
             "text": "Tag people and refer to any line by command /showline",
         }
