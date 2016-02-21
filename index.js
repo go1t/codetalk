@@ -96,11 +96,17 @@ var createSnippet = function(url, line_number, lines, stop) {
 }
 
 app.post('/showline', function(req,res) {
+  if(fileURL[req.body.team_id] == undefined) {
+    res.json({
+      text: "Please initiate the session with /codetalk command first"
+    })
+    return
+  }
   var text = req.body.text.split('-')
   if( text.length == 1 ) {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines[req.body.team_id] ) 
+      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines[req.body.team_id] )
     })
   } else {
     res.json({
