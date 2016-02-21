@@ -98,7 +98,7 @@ var createSnippet = function(url, line_number, lines, stop) {
 app.post('/showline', function(req,res) {
   if(fileURL[req.body.team_id] == undefined) {
     res.json({
-      text: "Please initiate the session with /codetalk command first"
+      text: "Please initiate the session with /codetalk command first, or use /refer instead"
     })
     return
   }
@@ -140,6 +140,12 @@ app.post('/refer', function(req,res){
 })
 
 app.post('/search', function(req,res){
+  if(fileURL[req.body.team_id] == undefined) {
+    res.json({
+      text: "Please initiate the session with /codetalk command first"
+    })
+    return
+  }
   var keyword = req.body.text, matches = []
   for(var i=0;i<lines[req.body.team_id].length; i++) {
     if(lines[req.body.team_id][i].indexOf(keyword) > -1) {
