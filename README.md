@@ -1,39 +1,18 @@
-# node-js-getting-started
+# Codetalk   
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
+A slack integration for simple code discussion
 
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
+### Commands
+/codetalk *[github file url]* - start the codetalk discussion on that file (required to be run first)
 
-## Running Locally
+/showline *[linenumber, can be in range]* - show the snippet from the current file at the specified line
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+/refer *[github file url]* *[linenumber]* - show the snippet from the specified file at the specified line
 
-```sh
-$ git clone git@github.com:heroku/node-js-getting-started.git # or clone your own fork
-$ cd node-js-getting-started
-$ npm install
-$ npm start
-```
+/find *[keyword]* - find the lines that contain the keyword
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+### Screenshot
+![screenshot](http://puu.sh/nfLaM/4a859d7bd3.png)
 
-## Deploying to Heroku
-
-```
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
-or
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Node.js on Heroku, see these Dev Center articles:
-
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+### Installation
+<a href="https://slack.com/oauth/authorize?scope=commands&client_id=22296872241.22374686359"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
