@@ -49,20 +49,20 @@ app.get('/grab', function(req, res) {
   });
 });
 
-var fileURL;
+var fileURL = {};
 var lines;
 
 app.post('/review', function(req,res) {
   getCodeFromURL(req.body.text, function(data) {
     lines = data
-    fileURL = req.body.text
+    fileURL[req.body.team_domain] = req.body.text
     res.json({
       response_type: "in_channel",
       text: "Your codetalk session is now active!",
       attachments: [
         {
             "title": lines.length + " lines of code",
-            "title_link": fileURL,
+            "title_link": fileURL[req.body.team_domain],
             "text": "Tag people and refer to any line by command /showline",
         }
       ]
@@ -100,12 +100,12 @@ app.post('/showline', function(req,res) {
   if( text.length == 1 ) {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL, parseInt(req.body.text), lines)
+      text: createSnippet(fileURL[req.body.team_domain], parseInt(req.body.text), lines)
     })
   } else {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL, parseInt(text[0]), lines, parseInt(text[1]))
+      text: createSnippet(fileURL[req.body.team_domain], parseInt(text[0]), lines, parseInt(text[1]))
     })
   }
 })
