@@ -61,7 +61,7 @@ app.post('/review', function(req,res) {
       text: "Your codetalk session is now active!",
       attachments: [
         {
-            "title": lines[req.body.team_id].length + " lines of code " + req.body.team_id,
+            "title": lines[req.body.team_id].length + " lines of code ",
             "title_link": fileURL[req.body.team_id],
             "text": "Tag people and refer to any line by command /showline",
         }
@@ -100,7 +100,7 @@ app.post('/showline', function(req,res) {
   if( text.length == 1 ) {
     res.json({
       response_type: "in_channel",
-      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines[req.body.team_id] ) + " " + req.body.team_id + " " + fileURL
+      text: createSnippet(fileURL[req.body.team_id], parseInt(req.body.text), lines[req.body.team_id] ) 
     })
   } else {
     res.json({
