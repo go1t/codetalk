@@ -44,11 +44,9 @@ app.get('/', function(request, response) {
   //response.render('pages/index');
   var code = getParameterByName('code')
   var request = require('request');
-  request.get("https://slack.com/api/oauth.access?client_id=22296872241.22374686359&client_secret=1e66456c43b443964919324b6b71f7c4&code=" + code, (error, response, body) {
+  request.get("https://slack.com/api/oauth.access?client_id=22296872241.22374686359&client_secret=1e66456c43b443964919324b6b71f7c4&code=" + code, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-          var csv = body;
-          // Continue with your processing here.
-          callback(csv.split('\n'));
+
       }
   });
 });
