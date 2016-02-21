@@ -124,18 +124,35 @@ app.post('/refer', function(req,res){
       text: "To refer a specific snippet of code, please use the command _'/refer <fileurl> <linenumber>'_"
     })
   } else {
+    var nums = raw[1].split('-')
     var url = raw[0], line = parseInt(raw[1])
-    getCodeFromURL(url, function(data) {
-      res.json({
-        response_type: "in_channel",
-        text: createSnippet(url, line, data)
-      })
-    },
-    function() {
-      res.json({
-        text: "It seems the url is invalid! Please try again"
-      })
-    })
+    if(nums.length == 1) {
+      getCodeFromURL(url, function(data) {
+          res.json({
+            response_type: "in_channel",
+            text: createSnippet(url, line, data)
+          })
+        },
+        function() {
+          res.json({
+            text: "It seems the url is invalid! Please try again"
+          })
+        }
+      )
+    } else {
+      getCodeFromURL(url, function(data) {
+          res.json({
+            response_type: "in_channel",
+            text: createSnippet(url, parseInt(nums[0]), data, parseInt(nums[1]))
+          })
+        },
+        function() {
+          res.json({
+            text: "It seems the url is invalid! Please try again"
+          })
+        }
+      )
+    }
   }
 })
 
