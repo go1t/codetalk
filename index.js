@@ -11,13 +11,15 @@ var transformURL = function(url) {
   return url.replace('/blob/', '/').replace('github.com','raw.githubusercontent.com')
 }
 
-var getCodeFromURL = function(url, callback) {
+var getCodeFromURL = function(url, callback, errorCallback) {
   var request = require('request');
   request.get(transformURL(url), function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var csv = body;
           // Continue with your processing here.
           callback(csv.split('\n'));
+      } else {
+         errorCallback()
       }
   });
 }
@@ -51,9 +53,9 @@ var fileURL;
 var lines;
 
 app.post('/review', function(req,res) {
-  fileURL = req.body.text
-  getCodeFromURL(fileURL, function(data) {
+  getCodeFromURL(req.body.text, function(data) {
     lines = data
+    fileURL = req.body.text
     res.json({
       response_type: "in_channel",
       text: "Your codetalk session is now active!",
@@ -65,6 +67,11 @@ app.post('/review', function(req,res) {
         }
       ]
     });
+  },
+  function() {
+    res.json({
+      text: "It seems the url is invalid! Please try again"
+    })
   });
 })
 
@@ -116,6 +123,11 @@ app.post('/refer', function(req,res){
       res.json({
         response_type: "in_channel",
         text: createSnippet(url, line, data)
+      })
+    },
+    function() {
+      res.json({
+        text: "It seems the url is invalid! Please try again"
       })
     })
   }
