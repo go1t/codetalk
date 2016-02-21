@@ -16,13 +16,3 @@ A slack integration for simple code discussion
 
 ### Installation
 *Coming soon*
-
-### Manual Set up
-1. Deploy to Heroku [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-2. Remember that url 
-3. Go to your slack team's slack commands page
-4. Add 4 commands, each pointing to these url respectively:
-  * codetalk, [your-deployed-heroku-url]/review
-  * showline, [your-deployed-heroku-url]/showline
-  * refer, [your-deployed-heroku-url]/refer
-  * find, [your-deployed-heroku-url]/search
