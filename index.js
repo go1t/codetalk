@@ -141,7 +141,7 @@ app.post('/refer', function(req,res){
 
 app.post('/search', function(req,res){
   var keyword = req.body.text, matches = []
-  for(var i=0;i<lines[req.body.team_id] .length; i++) {
+  for(var i=0;i<lines[req.body.team_id].length; i++) {
     if(lines[req.body.team_id][i].indexOf(keyword) > -1) {
       matches.push({
         text: "line " + (i+1) + ": " + lines[req.body.team_id][i]
